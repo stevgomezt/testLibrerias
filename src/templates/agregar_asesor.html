@@ -1,0 +1,639 @@
+{% block head %}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    {% block customCSS %} {% endblock %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logodoble.png') }}" />
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
+    <!-- boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <!-- glightbox -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/css/glightbox.css" />
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+</head>
+{% endblock %} {% block body %}
+
+<body>
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo">
+                <a href="home"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" />
+                    <h6 style="color: #3bd100; font-weight: bold">
+                        Usuario activo {{ current_user.fullname }}
+                    </h6>
+                </a>
+            </h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li>
+                        <a class="nav-link scrollto" href="home">Inicio</a>
+                    </li>
+                    <li>
+                        <a class="nav-link scrollto active" href="">Registro</a>
+                    </li>
+                    <li>
+                        <a class="nav-link scrollto " href="asesores">Resultados</a>
+                    </li>
+                    <li>
+                        <a class="nav-link scrollto " href="asesores_info">Asesores</a>
+                    </li>
+                    <!-- <li>
+                        <a class="nav-link scrollto" href="#services">Services</a>
+                    </li> -->
+                    <li>
+                        <a class="btn nav-link scrollto" href="{{ url_for('logout') }}" style="color: #d7411d">
+                            Cerrar sesión<i class="bi bi-box-arrow-left"
+                                style="font-size: 20px; color: #d7411d"></i></a>
+                    </li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- ======= PAC Section ======= -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-title">
+                    <span>PERFILAMIENTO ANALITICO DEL COLABORADOR</span>
+                    <h2>PERFILAMIENTO ANALITICO DEL COLABORADOR</h2>
+                    <!-- <h2 style="
+                    font-size: 15PX;
+                    margin: 0;
+                    padding: 0;
+                ">PERFILAMIENTO ANALITICO DEL COLABORADOR</h2> -->
+                </div>
+
+                <div class="mt-5 mt-lg-0 d-flex align-items-stretch">
+                    <form action="{{ url_for('guardar_asesor') }}" method="post" class="php-email-form">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <!-- Columna 1 -->
+                            <div class="col-md-4">
+                                <h6>
+                                    <strong>Categoría 1: Perfil Personal y Académico</strong>
+                                </h6>
+
+                                <div class="form-group">
+                                    <label for="numero_documento">Documento de identificación:</label>
+                                    {{ form.numero_documento (class="form-control", type="text", oninput="this.value
+                                    =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Nombre del asesor:</label>
+                                    {{ form.nombre (class="form-control", pattern="[A-Za-z\s]+", oninput="this.value
+                                    =
+                                    this.value.replace(/[\d]/g, '')") }}
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="edad">Edad:</label>
+                                    {{ form.edad(class="form-control", type="text", oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')", maxlength="2") }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="genero">Género:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="genero" id="genero" required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="masculino" {% if form.genero=='masculino' %}selected{% endif
+                                                %}>Masculino</option>
+                                            <option value="femenino" {% if form.genero=='femenino' %}selected{% endif
+                                                %}>Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="estado_civil">Estado civil:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="estado_civil" id="estado_civil" required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="soltero" {% if form.estado_civil=='soltero' %}selected{%
+                                                endif %}>Soltero/a</option>
+                                            <option value="casado" {% if form.estado_civil=='casado' %}selected{% endif
+                                                %}>Casado/a</option>
+                                            <option value="divorciado" {% if form.estado_civil=='divorciado'
+                                                %}selected{% endif %}>Divorciado/a</option>
+                                            <option value="viudo" {% if form.estado_civil=='viudo' %}selected{% endif
+                                                %}>Viudo/a</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="nivel_estudios">Nivel de estudios:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="nivel_estudios" id="nivel_estudios" required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="bachillerato" {% if form.nivel_estudios=='bachillerato'
+                                                %}selected{% endif %}>Bachillerato</option>
+                                            <option value="tecnico" {% if form.nivel_estudios=='tecnico' %}selected{%
+                                                endif %}>Técnico</option>
+                                            <option value="tecnologo" {% if form.nivel_estudios=='tecnologo'
+                                                %}selected{% endif %}>Tecnólogo</option>
+                                            <option value="universitario" {% if form.nivel_estudios=='universitario'
+                                                %}selected{% endif %}>Universitario</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Columna 2 -->
+                            <div class="col-md-4">
+                                <h6>
+                                    <strong>Categoría 2: Datos de Contacto y Familiares</strong>
+                                </h6>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="estrato">Estrato:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="estrato" id="estrato" required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="1" {% if form.estrato=='1' %}selected{% endif %}>1
+                                            </option>
+                                            <option value="2" {% if form.estrato=='2' %}selected{% endif %}>2
+                                            </option>
+                                            <option value="3" {% if form.estrato=='3' %}selected{% endif %}>3
+                                            </option>
+                                            <option value="4" {% if form.estrato=='4' %}selected{% endif %}>4
+                                            </option>
+                                            <option value="5" {% if form.estrato=='5' %}selected{% endif %}>5
+                                            </option>
+                                            <option value="6" {% if form.estrato=='6' %}selected{% endif %}>6
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="num_hijos">Número de hijos:</label>
+                                    {{ form.num_hijos (class="form-control", type="text", oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')", maxlength="2") }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="personas_cargo">Personas a cargo:</label>
+                                    {{ form.personas_cargo (class="form-control", type="text", oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')", maxlength="2") }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="correo">Correo electrónico:</label>
+                                    {{ form.correo (class="form-control", type="email") }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono:</label>
+                                    {{ form.telefono (class="form-control", type="text", oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '').substring(0, 10)", maxlength="10") }}
+                                </div>
+
+                            </div>
+                            <!-- Columna 3 -->
+                            <div class="col-md-4">
+                                <h6>
+                                    <strong>Categoría 3: Experiencia
+                                        Laboral</strong>
+                                </h6>
+                                <div class="form-group">
+                                    <label class="label-titles" for="experiencia_general">Experiencia
+                                        general:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="experiencia_general" id="experiencia_general"
+                                            required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="0" {% if form.experiencia_general=='0' %}selected{% endif %}>
+                                                0</option>
+                                            <option value="1" {% if form.experiencia_general=='1' %}selected{% endif %}>
+                                                1</option>
+                                            <option value="2" {% if form.experiencia_general=='2' %}selected{% endif %}>
+                                                2</option>
+                                            <option value="3" {% if form.experiencia_general=='3' %}selected{% endif %}>
+                                                3</option>
+                                            <option value="4" {% if form.experiencia_general=='4' %}selected{% endif %}>
+                                                4</option>
+                                            <option value="5" {% if form.experiencia_general=='5' %}selected{% endif %}>
+                                                5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="area_experiencia">Área de experiencia:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="area_experiencia" id="area_experiencia"
+                                            required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="bo" {% if form.area_experiencia=='bo' %}selected{% endif %}>
+                                                BO
+                                            </option>
+                                            <option value="cobranza" {% if form.area_experiencia=='cobranza'
+                                                %}selected{% endif %}>Cobranza</option>
+                                            <option value="retencion" {% if form.area_experiencia=='retencion'
+                                                %}selected{% endif %}>Retención</option>
+                                            <option value="servicio al cliente" {% if
+                                                form.area_experiencia=='servicio al cliente' %}selected{% endif %}>
+                                                Servicio
+                                                al cliente</option>
+                                            <option value="venta cruzada" {% if form.area_experiencia=='venta cruzada'
+                                                %}selected{% endif %}>Venta
+                                                cruzada</option>
+                                            <option value="ventas" {% if form.area_experiencia=='ventas' %}selected{%
+                                                endif %}>Ventas</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="tiempo_ventas">Tiempo de experiencia en
+                                        ventas:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="tiempo_ventas" id="tiempo_ventas" required>
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option value="0" {% if form.tiempo_ventas=='0' %}selected{% endif %}>0
+                                            </option>
+                                            <option value="1" {% if form.tiempo_ventas=='1' %}selected{% endif %}>1
+                                            </option>
+                                            <option value="2" {% if form.tiempo_ventas=='2' %}selected{% endif %}>2
+                                            </option>
+                                            <option value="3" {% if form.tiempo_ventas=='3' %}selected{% endif %}>3
+                                            </option>
+                                            <option value="4" {% if form.tiempo_ventas=='4' %}selected{% endif %}>4
+                                            </option>
+                                            <option value="5" {% if form.tiempo_ventas=='5' %}selected{% endif %}>5
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md col-lg col-sm">
+                                    <div class="form-group">
+                                        <label class="label-titles" for="experiencia">Años de experiencia:</label>
+                                        <div class="input-container">
+                                            <select class="form-control" name="experiencia" id="experiencia" required>
+                                                <option value="" disabled selected>Seleccionar</option>
+                                                <option value="0" {% if form.experiencia=='0' %}selected{% endif %}>
+                                                    0
+                                                </option>
+                                                <option value="1" {% if form.experiencia=='1' %}selected{% endif %}>
+                                                    1
+                                                </option>
+                                                <option value="2" {% if form.experiencia=='2' %}selected{% endif %}>
+                                                    2
+                                                </option>
+                                                <option value="3" {% if form.experiencia=='3' %}selected{% endif %}>
+                                                    3
+                                                </option>
+                                                <option value="4" {% if form.experiencia=='4' %}selected{% endif %}>
+                                                    4
+                                                </option>
+                                                <option value="5" {% if form.experiencia=='5' %}selected{% endif %}>
+                                                    5
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-titles" for="otra_area_experiencia">Otra área de
+                                        experiencia:</label>
+                                    <div class="input-container">
+                                        <select class="form-control" name="otra_area_experiencia"
+                                            id="otra_area_experiencia" required>
+                                            <option value="" disabled selected>Seleccionar</option>option>
+                                            <option value="areas administrativas" {% if
+                                                form.otra_area_experiencia=='areas administrativas' %}selected{% endif
+                                                %}>
+                                                Áreas administrativas
+                                            </option>
+                                            <option value="servicio al cliente presencial" {% if
+                                                form.otra_area_experiencia=='servicio al cliente presencial'
+                                                %}selected{% endif %}>
+                                                Servicio al cliente presencial
+                                            </option>
+                                            <option value="venta al cliente presencial" {% if
+                                                form.otra_area_experiencia=='venta al cliente presencial' %}selected{%
+                                                endif %}>
+                                                Venta al cliente presencial
+                                            </option>
+                                            <option value="otros" {% if form.otra_area_experiencia=='otros' %}selected{%
+                                                endif %}>Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Campos adicionales -->
+                            <div style="display: none;">
+                                <div class="form-group">
+                                    {{ form.perfil_natural_r (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_e (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_p (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_n (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_a (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_r_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_e_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_p_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_n_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_natural_a_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.intensidad_perfil_natural (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.energia_natural (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_r (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_e (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_p (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_n (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_a (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_r_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_e_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_p_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_n_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil_adaptado_a_ie (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.toma_decisiones_adaptado (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.intensidad_perfil_adaptado (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.energia_adaptado (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.equilibrio_de_energia (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.modificacion_perfil (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.tiempo_formulario (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.unidad_tiempo (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.color (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.nombre_perfil (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.eje_dominante (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.perfil (class="form-control", type="text",value='1',
+                                    oninput="this.value =
+                                    this.value.replace(/[^0-9]/g, '')") }}
+                                </div>
+                            </div>
+                        </div>
+                        <section class="section-categoria4">
+                            <h6 style="margin-bottom: 15px; margin-top: 15px;">
+                                <strong>Categoria 4: Perfil PDA</strong>
+                            </h6>
+                            <div class="container-button">
+                                <div class="fileUpload btn button-30">
+                                    <span>Adjuntar perfil</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                        class="bi bi-paperclip" viewBox="0 0 16 16">
+                                        <path
+                                            d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                                    </svg>
+                                    <input id="uploadBtn" type="file" class="upload" accept="application/pdf"
+                                        onchange="onloader()" />
+                                </div>
+                                <input class="fileUploadRuta" id="uploadFile" placeholder="Ningún archivo seleccionado"
+                                    readonly disabled />
+                            </div>
+                            <br />
+                        </section>
+                        <section class="section-resultados" id="sectionResultados" style="display: none;">
+                            <button type="submit" id="btn-resultados" class="button-30">
+                                <!-- <button type="submit" id="btn-resultados" class="button-30"> -->
+                                <span>Ver resultados</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                    class="bi bi-bookmark-check bi-paperclip" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                    <path
+                                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                </svg>
+                            </button>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- End PAC Section -->
+    </main>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container"></div>
+        </div>
+        <div class="container footer-bottom clearfix">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Emergia</span></strong>.
+            </div>
+            <div class="credits">
+                Designed by
+                <a href="#">Área de Analítica e inteligencia de negocios</a>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <!-- boxicons -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- glightbox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
+    <!-- swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- isotope -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <!-- purecounterjs -->
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+</body>
+
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<!-- boxicons -->
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<!-- glightbox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
+<!-- swiper -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<!-- isotope -->
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<!-- purecounterjs -->
+<script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
