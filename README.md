@@ -1,7 +1,7 @@
 # Login (Autenticación) con Python, Flask y MySQL
 C:\Users\sgomezt\Documents\Proyectos\flask-login-mysql
-virtualenv -p python3 envTestLibrerias3
-.\envTestLibrerias3\Scripts\activate
+virtualenv -p python3 envTestLibrerias5
+.\envTestLibrerias5\Scripts\activate
 deactivate
 pip install -r requirements.txt
 python .\src\app.py
