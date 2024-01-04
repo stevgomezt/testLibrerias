@@ -18,6 +18,74 @@ from io import BytesIO
 from models.ModelUser import ModelUser
 from models.entities.User import User
 
+#Importar librerias OCR
+#@markdown ---
+#@markdown Import modules needed for this project \\
+#@markdown Librerías para información o ubicación del puntero del directorio
+import os
+from os import remove # libreria para remover un archivo
+from shutil import rmtree # libreria para remover la carpeta con archivos
+from ctypes.util import find_library
+import re
+import io
+from io import StringIO
+import sys
+#@markdown ---
+#@markdown Carga de archivos disponibles
+import glob
+from tqdm import tqdm_notebook as tqdm
+import zipfile # para lectura de datos
+from pathlib import Path
+import pathlib
+# import google
+# from google.colab import files, drive
+from functools import reduce # Para aplicar la disminución entre los datos
+# drive.mount('/content/drive')
+#@markdown ---
+#@markdown Librerias para la lectura de la información desde
+import cv2
+import pytesseract
+import PyPDF2
+from PyPDF2 import PdfFileReader, PdfReader, PdfWriter
+from pdf2image import convert_from_bytes, convert_from_path
+import tabula as tb
+from tabula import read_pdf
+import pdfminer
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
+from pdfminer.pdfpage import PDFPage
+from pdfminer.layout import LAParams, LTTextBox, LTTextLine
+from pdfminer.pdfinterp import PDFResourceManager
+from pdfminer.pdfinterp import PDFPageInterpreter
+from pdfminer.pdfdevice import PDFDevice
+from pdfminer.converter import TextConverter
+import textract
+import pytesseract
+import pyocr
+import pyocr.builders
+import wand
+import ocrmypdf
+#@markdown ---
+#@markdown Librerias para lectura del PDF y pasar a imágen
+from PIL import Image as PI
+import PIL
+from wand.image import Image
+from skimage import color
+#@markdown ---
+#@markdown librerias para almacenamiento de información tabulada
+import numpy as np
+import pandas as pd
+import json
+#@markdown ---
+#@markdown libreria para verificar versión
+import subprocess
+#@markdown ---
+#@markdown librerias para lectura de datos
+import nums_from_string
+#@markdown ---
+#@markdown Libreria para visualizar una imágen de seser necesario
+import matplotlib.pyplot as plt
+
 # Inicialización de la aplicación Flask.
 app = Flask(__name__)
 
