@@ -1,0 +1,2 @@
+agregar la ruta de ImageMagick a tu PATH
+https://imagemagick.org/script/download.php#windows
